@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mosope — Writer · Web3 · Community</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F4EF;
+    --ink: #1A1714;
+    --charcoal: #2E2B27;
+    --warm-gray: #8C877F;
+    --accent: #C4622D;
+    --accent-light: #F0DDD2;
+    --border: #E2DDD7;
+    --white: #FFFFFF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 6vw;
+    background: rgba(247,244,239,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--warm-gray);
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink);
+    color: var(--white) !important;
+    padding: 9px 20px;
+    border-radius: 100px;
+    font-weight: 500 !important;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--accent) !important; color: var(--white) !important; }
+
+  /* ── HERO ── */
+  #home {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 140px 6vw 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(100px, 18vw, 220px);
+    color: rgba(196,98,45,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.04em;
+  }
+
+  .hero-inner {
+    max-width: 900px;
+    position: relative;
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: var(--warm-gray);
+    max-width: 540px;
+    margin-bottom: 44px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--ink);
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    color: var(--ink);
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: 1.5px solid var(--border);
+    transition: border-color 0.25s, color 0.25s, transform 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--ink); transform: translateY(-1px); }
+
+  .hero-stats {
+    display: flex; gap: 48px;
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--warm-gray); letter-spacing: 0.04em; }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 6vw; }
+
+  .section-label {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1; max-width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--white);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+    max-width: 1100px;
+  }
+
+  .about-text p {
+    color: var(--charcoal);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .about-text p strong { color: var(--ink); font-weight: 500; }
+
+  .skills-grid {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 8px;
+  }
+
+  .skill-tag {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    color: var(--charcoal);
+    font-size: 0.82rem;
+    font-weight: 400;
+    padding: 7px 14px;
+    border-radius: 100px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .skill-tag:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .skill-tag.web3 { background: var(--accent-light); border-color: rgba(196,98,45,0.3); color: var(--accent); }
+
+  .skills-section h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+
+  .skills-block { margin-bottom: 32px; }
+  .skills-block-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    margin-bottom: 10px;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--cream); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .project-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(26,23,20,0.08); border-color: transparent; }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-type {
+    display: inline-flex;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--warm-gray);
+    line-height: 1.7;
+    font-weight: 300;
+    flex: 1;
+    margin-bottom: 24px;
+  }
+
+  .project-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s, gap 0.2s;
+  }
+  .project-link:hover { color: var(--accent); gap: 10px; }
+  .project-link svg { width: 14px; height: 14px; }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--white); }
+
+  .timeline { max-width: 780px; margin-top: 48px; }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 32px;
+    padding-bottom: 48px;
+    position: relative;
+  }
+  .timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 139px; top: 28px; bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-date {
+    font-size: 0.8rem;
+    color: var(--warm-gray);
+    font-weight: 400;
+    padding-top: 4px;
+    text-align: right;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: 132px; top: 6px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--accent);
+  }
+
+  .timeline-body h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .timeline-org {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .timeline-body ul {
+    list-style: none;
+    padding: 0;
+  }
+  .timeline-body ul li {
+    font-size: 0.9rem;
+    color: var(--charcoal);
+    font-weight: 300;
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .timeline-body ul li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+
+  .cert-grid {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    max-width: 780px;
+  }
+
+  .cert-item {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 0.85rem;
+    color: var(--charcoal);
+  }
+  .cert-item strong { display: block; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--cream); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+    max-width: 1000px;
+    margin-top: 48px;
+  }
+
+  .contact-info h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+  .contact-info p {
+    color: var(--warm-gray);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  .contact-detail {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    color: var(--charcoal);
+  }
+  .contact-detail a { color: var(--charcoal); text-decoration: none; }
+  .contact-detail a:hover { color: var(--accent); }
+  .contact-icon {
+    width: 36px; height: 36px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+
+  .social-links {
+    display: flex; gap: 10px;
+    margin-top: 28px;
+  }
+  .social-link {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--charcoal);
+    font-size: 1rem;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .social-link:hover { background: var(--accent); border-color: var(--accent); color: var(--white); transform: translateY(-2px); }
+
+  /* Contact Form */
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .form-group label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(196,98,45,0.08);
+  }
+
+  .form-group textarea { min-height: 120px; }
+
+  .btn-submit {
+    background: var(--ink);
+    color: var(--white);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+    align-self: flex-start;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-submit:hover { background: var(--accent); transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    padding: 32px 6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+  }
+  footer .footer-name {
+    font-family: 'DM Serif Display', serif;
+    color: var(--white);
+    font-size: 1.1rem;
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .timeline-item { grid-template-columns: 1fr; gap: 8px; }
+    .timeline-date { text-align: left; }
+    .timeline-item::after { display: none; }
+    .timeline-dot { display: none; }
+    .hero-stats { gap: 28px; flex-wrap: wrap; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">Mosope.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg-text">WRITE</div>
+  <div class="hero-inner">
+    <div class="hero-tag">Open to opportunities</div>
+    <h1>Words that<br><em>move</em> people &<br>build communities.</h1>
+    <p class="hero-sub">Creative writer, Web3 community builder, and customer support specialist. I craft compelling narratives, manage thriving communities, and help brands connect with their audiences — across the blockchain and beyond.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View My Work →</a>
+      <a href="#contact" class="btn-secondary">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Years Web3 Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">C1</div>
+        <div class="stat-label">Advanced English (EF SET)</div>
+      </div>
+      <div>
+        <div class="stat-num">100s</div>
+        <div class="stat-label">Users Onboarded</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid fade-in">
+    <div class="about-text">
+      <div class="section-label">About Me</div>
+      <h2>Writer. Builder.<br>Community soul.</h2>
+      <p>I'm <strong>Mosope</strong> — a remote-first creative writer and Web3 community specialist based in Lagos, Nigeria. I bring stories to life for blockchain protocols, DeFi platforms, and digital brands, turning complex ideas into clear, compelling content.</p>
+      <p>My background spans <strong>community moderation in Web3</strong>, customer support, and social media management. I've onboarded hundreds of users into crypto ecosystems, moderated DAO communities, and crafted long-form editorial pieces that drive real engagement.</p>
+      <p>Whether it's a thread on X, a deep-dive article about a DeFi protocol, or managing a 1,000-member Discord — I make communities feel alive and brands feel human.</p>
+      <br>
+      <a href="mailto:manueljoseph989@gmail.com" class="btn-primary" style="width:fit-content">Download CV →</a>
+    </div>
+    <div class="skills-section">
+      <div class="section-label">Skills</div>
+
+      <div class="skills-block">
+        <div class="skills-block-label">⛓ Web3 & Crypto</div>
+        <div class="skills-grid">
+          <span class="skill-tag web3">Web3 Writing</span>
+          <span class="skill-tag web3">DeFi Content</span>
+          <span class="skill-tag web3">Solana Ecosystem</span>
+          <span class="skill-tag web3">Community Moderation</span>
+          <span class="skill-tag web3">Discord Management</span>
+          <span class="skill-tag web3">Telegram Communities</span>
+          <span class="skill-tag web3">DAO Operations</span>
+          <span class="skill-tag web3">User Onboarding</span>
+        </div>
+      </div>
+
+      <div class="skills-block">
+        <div class="skills-block-label">✍️ Writing & Content</div>
+        <div class="skills-grid">
+          <span class="skill-tag">Creative Writing</span>
+          <span class="skill-tag">Long-form Articles</span>
+          <span class="skill-tag">Twitter/X Threads</span>
+          <span class="skill-tag">Social Media Copy</span>
+          <span class="skill-tag">Medium Blog Posts</span>
+          <span class="skill-tag">Storytelling</span>
+        </div>
+      </div>
+
+      <div class="skills-block">
+        <div class="skills-block-label">🎧 Support & Operations</div>
+        <div class="skills-grid">
+          <span class="skill-tag">Customer Support</span>
+          <span class="skill-tag">Zendesk</span>
+          <span class="skill-tag">Conflict Resolution</span>
+          <span class="skill-tag">CRM Systems</span>
+          <span class="skill-tag">Cross-cultural Comms</span>
+          <span class="skill-tag">Slack · Zoom</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="fade-in">
+    <div class="section-label">Featured Work</div>
+    <h2>Articles & Writing</h2>
+    <p style="color:var(--warm-gray);font-weight:300;max-width:520px;margin-top:8px;">A selection of published work spanning DeFi protocols, fintech, and Web3 ecosystems.</p>
+  </div>
+
+  <div class="projects-grid fade-in">
+
+    <a href="https://x.com/i/status/2047500748708106432" target="_blank" rel="noopener" class="project-card">
+      <span class="project-type">DeFi · Solana</span>
+      <div class="project-title">The Problems Every Solana DeFi Trader Faces — And How Yieldbay Health Protocol Is Solving Them</div>
+      <p class="project-desc">A deep-dive editorial unpacking the friction points Solana DeFi traders encounter daily, and how Yieldbay Health Protocol's architecture addresses liquidity, risk, and UX challenges head-on.</p>
+      <span class="project-link">Read on X/Twitter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a href="https://x.com/i/status/2045828029964746882" target="_blank" rel="noopener" class="project-card">
+      <span class="project-type">Fintech · Nigeria</span>
+      <div class="project-title">Your Money Has Finally Entered the Chat — How Xpend Is Solving What Nigerian Banks Never Could</div>
+      <p class="project-desc">An engaging long-form piece on how Xpend is rewriting financial access for Nigerians — covering the gaps legacy banks left open and how this platform fills them with speed, transparency, and local context.</p>
+      <span class="project-link">Read on X/Twitter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a href="https://medium.com/@manueljoseph989" target="_blank" rel="noopener" class="project-card">
+      <span class="project-type">Blog · Medium</span>
+      <div class="project-title">More Writing on Medium</div>
+      <p class="project-desc">Explore more articles, essays, and creative writing pieces published on Medium — covering topics from Web3 narratives to culture, society, and personal storytelling.</p>
+      <span class="project-link">Visit Medium Profile <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="fade-in">
+    <div class="section-label">Resume</div>
+    <h2>Experience &<br>Education</h2>
+  </div>
+
+  <div class="timeline fade-in">
+
+    <div class="timeline-item">
+      <div class="timeline-date">2021 – 2023</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <h3>Senior Community Moderator</h3>
+        <div class="timeline-org">Area 51 Web3 Community · Remote</div>
+        <ul>
+          <li>Primary point of contact for new and existing members across Web3 community platforms</li>
+          <li>Onboarded hundreds of users into community protocols, improving member retention and satisfaction</li>
+          <li>Managed communication across Discord, Telegram, and Twitter/X channels</li>
+          <li>De-escalated conflicts and moderated high-volume DAO discussions with fairness</li>
+          <li>Documented and escalated recurring member concerns with clear reports to leadership</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Jun – Aug 2021</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <h3>Case Worker</h3>
+        <div class="timeline-org">PAHFIN · Nigeria</div>
+        <ul>
+          <li>Conducted in-depth interviews to assess beneficiary needs and recommend support interventions</li>
+          <li>Provided counselling and psycho-social support with empathy and active listening</li>
+          <li>Maintained accurate, confidential case file documentation in compliance with standards</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Jul 2023 – Jun 2024</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <h3>Class Teacher (NYSC)</h3>
+        <div class="timeline-org">Living Spring Secondary School · Nigeria</div>
+        <ul>
+          <li>Delivered structured lessons and managed diverse classroom environments</li>
+          <li>Assessed student performance and provided personalised, constructive feedback</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2017 – 2023</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <h3>B.Sc. Sociology — 2:1 Second Class Upper</h3>
+        <div class="timeline-org">Ekiti State University, Ado-Ekiti · Nigeria</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cert-grid fade-in">
+    <div class="cert-item">
+      <strong>EF SET English Certificate</strong>
+      C1 Advanced · Score 63/100 · April 2026
+    </div>
+    <div class="cert-item">
+      <strong>CIPM Associate Member</strong>
+      Chartered Institute of Personnel Management (In View)
+    </div>
+    <div class="cert-item">
+      <strong>HR & Recruitment</strong>
+      Stages of Recruitment, Hiring & Onboarding
+    </div>
+    <div class="cert-item">
+      <strong>Employee Management</strong>
+      Compensation & Performance Management
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-in">
+    <div class="section-label">Get In Touch</div>
+    <h2>Let's work<br>together.</h2>
+  </div>
+
+  <div class="contact-grid fade-in">
+    <div class="contact-info">
+      <h3>Open for remote opportunities</h3>
+      <p>Whether you need a Web3 content writer, community manager, or customer support specialist — I'd love to hear from you. Based in Lagos, available globally.</p>
+
+      <div class="contact-detail">
+        <div class="contact-icon">✉️</div>
+        <a href="mailto:manueljoseph989@gmail.com">manueljoseph989@gmail.com</a>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">📍</div>
+        Lagos, Nigeria · Remote
+      </div>
+
+      <div class="social-links">
+        <a href="https://ng.linkedin.com/in/olanrewaju-damilare-4b5873384" target="_blank" class="social-link" title="LinkedIn">in</a>
+        <a href="https://x.com/Mosopzy1" target="_blank" class="social-link" title="Twitter/X">𝕏</a>
+        <a href="https://medium.com/@manueljoseph989" target="_blank" class="social-link" title="Medium">M</a>
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" placeholder="e.g. Web3 writing project" />
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell me about your project or opportunity…"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Send Message →</button>
+      <div id="form-success" style="display:none;color:var(--accent);font-size:0.85rem;font-weight:500;">✓ Message sent! I'll be in touch soon.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Mosope.</span>
+  <span>© 2026 · Lagos, Nigeria · Available for Remote Work</span>
+</footer>
+
+<script>
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }, 1000);
+  }
+
+  // Nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--ink)' : '';
+    });
+  });
+</script>
+</body>
+</html>
